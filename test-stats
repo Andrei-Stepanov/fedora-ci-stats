@@ -247,17 +247,24 @@ def main():
             p['dg_pending_pr'] = pkg in stats.get("distgit-unmerged-pr", [])
             j2_pkgs.append(p)
         j2_total = {}
-        j2_total['dg_testsyml'] = len(stats.get("distgit-tests.yml", []))
+        total_dg_testsyml = len(stats.get("distgit-tests.yml", []))
+        j2_total['dg_testsyml'] = total_dg_testsyml
         j2_total['dg_classic'] = len(stats.get("distgit-classic", []))
         j2_total['dg_container'] = len(stats.get("distgit-container", []))
         j2_total['dg_atomic'] = len(stats.get("distgit-atomic", []))
-        j2_total['up_testsyml'] = len(stats.get("upstreamfirst-tests.yml", []))
+        total_up_testsyml = len(stats.get("upstreamfirst-tests.yml", []))
+        j2_total['up_testsyml'] = total_up_testsyml
         j2_total['up_classic'] = len(stats.get("upstreamfirst-classic", []))
         j2_total['up_container'] = len(stats.get("upstreamfirst-container", []))
         j2_total['up_atomic'] = len(stats.get("upstreamfirst-atomic", []))
         j2_total['dg_missing'] = len(stats.get("missing", []))
         j2_total['dg_pending_pr'] = len(stats.get("distgit-unmerged-pr", []))
-        j2_total['known'] = len(know_pkgs)
+        total_known = len(know_pkgs)
+        j2_total['known'] = total_known
+        total_up_testsyml_percent = "{0:.0f}".format(float(total_up_testsyml)/total_known * 100)
+        total_dg_testsyml_percent = "{0:.0f}".format(float(total_dg_testsyml)/total_known * 100)
+        j2_total['up_testsyml_percent'] = total_up_testsyml_percent
+        j2_total['dg_testsyml_percent'] = total_dg_testsyml_percent
         j2_loader = jinja2.FileSystemLoader(THIS_DIR)
         j2_env = jinja2.Environment(loader=j2_loader, trim_blocks=True)
         template = j2_env.get_template(IN_J2_WIKI_TEMPLATE)
