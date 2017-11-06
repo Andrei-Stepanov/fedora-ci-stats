@@ -185,7 +185,9 @@ def main():
     stats = { }
     directory = tempfile.mkdtemp(prefix="test-stats")
     # Gather statistics for dist-git.
-    known_repos = itertools.chain(repos(opts.reposlist), projects())
+    known_repos = repos(opts.reposlist)
+    if not opts.onlyfilerepos:
+        known_repos = itertools.chain(known_repos, projects())
     for project in itertools.islice(known_repos, stop):
         url = urllib.parse.urljoin(DISTGIT_BASE, project)
         repo = clone(url, directory, shallow=True)
@@ -204,9 +206,6 @@ def main():
             count(stats, "missing", project)
     # Gather statistics for upstream first projects.
     for project in itertools.islice(projects(), stop):
-        if opts.onlyfilerepos:
-            if project not in stats["distgit"]:
-                continue
         url = urllib.parse.urljoin(UPSTREAM_BASE, project)
         repo = clone(url, directory)
         if repo:
