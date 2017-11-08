@@ -206,6 +206,9 @@ def main():
             count(stats, "missing", project)
     # Gather statistics for upstream first projects.
     for project in itertools.islice(projects(), stop):
+        if opts.onlyfilerepos:
+            if project not in stats["distgit"]:
+                continue
         url = urllib.parse.urljoin(UPSTREAM_BASE, project)
         repo = clone(url, directory)
         if repo:
