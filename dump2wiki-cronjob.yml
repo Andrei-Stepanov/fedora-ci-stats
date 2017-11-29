@@ -4,6 +4,7 @@ metadata:
   name: tests2wiki
 spec:
   schedule: "11 9,18 * * *"
+  ConcurrencyPolicy: Replace
   jobTemplate:
     spec:
       template:
@@ -40,7 +41,7 @@ spec:
                   #export WIKI_PASS=<YOUR FEDORA FASS PASS>
                   ./publish2wiki.py --filedoc wdata.mw --pagepath CI/Tests/stat
                   ./publish2wiki.py --filedoc wdata_hp.mw --pagepath CI/Tests/stat_hp
-          restartPolicy: OnFailure
+          restartPolicy: Never
 
 
 # vim: et ts=2 sw=2 ai
