@@ -41,7 +41,7 @@ def get_pull_requests(site_url, package):
     try:
         response_json = response.json()
     except Exception:
-        print "get_pull_requests failed for: %s" % site
+        print("get_pull_requests failed for: %s" % site)
         response_json = ""
     return response_json
 
