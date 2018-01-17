@@ -17,7 +17,6 @@
 #
 
 """Purpose: Publish some document on MediaWiki.
-
 """
 
 import os

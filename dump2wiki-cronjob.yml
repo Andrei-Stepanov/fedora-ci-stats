@@ -23,9 +23,6 @@ spec:
                   HOME=/tmp pip install --user virtualenv
                   PYTHONPATH="/tmp/.local/lib/python3.6/site-packages:$PYTHONPATH" /tmp/.local/bin/virtualenv  /tmp/v
                   source /tmp/v/bin/activate
-                  pip install mwclient
-                  pip install ansible
-                  pip install Jinja2
                   export GIT_COMMITTER_NAME=git
                   export GIT_COMMITTER_EMAIL=git@git.git
                   git clone --branch wikireport https://github.com/Andrei-Stepanov/fedora-ci-stats
@@ -33,8 +30,9 @@ spec:
                   echo -e '[defaults]\nroles_path=/tmp/standard-test-roles/roles' > /tmp/ansible.cfg
                   export ANSIBLE_CONFIG=/tmp/ansible.cfg
                   pushd fedora-ci-stats
-                  ./test-stats --wikiout wdata.mw --reposlist repos
-                  ./test-stats --wikiout wdata_hp.mw --reposlist repos_hp --onlyfilerepos
+                  pip install -r /tmp/fedora-ci-stats/requirements.txt
+                  python test-stats.py --wikiout wdata.mw --reposlist repos
+                  python test-stats.py --wikiout wdata_hp.mw --reposlist repos_hp
                   cat wdata.mw
                   cat wdata_hp.mw
                   #export WIKI_USER=<YOUR FEDORA FAS LOGIN>
