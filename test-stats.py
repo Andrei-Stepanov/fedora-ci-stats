@@ -93,7 +93,7 @@ def wrapper_for_get_pull_requests(package):
         package_json['distgit']['package_url'] = ''
 
     # Write results to the file
-    print('Gathering info for {} package'.format(package_json['name']))
+    print('Gathering info for {}'.format(package_json['name']))
     write_results_to_the_file(package_json, FILE_PACKAGES)
 
 
