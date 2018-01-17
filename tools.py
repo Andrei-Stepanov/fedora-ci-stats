@@ -38,7 +38,12 @@ def get_pull_requests(site_url, package):
     site = site_url + 'api/0/rpms/' + package + '/pull-requests'
 
     response = requests.get(site)
-    return response.json()
+    try:
+        response_json = response.json()
+    except Exception:
+        print "get_pull_requests failed for: %s" % site
+        response_json = ""
+    return response_json
 
 
 def manage_pull_request(response_json):
