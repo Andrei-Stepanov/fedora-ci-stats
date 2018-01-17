@@ -93,6 +93,7 @@ def wrapper_for_get_pull_requests(package):
         package_json['distgit']['package_url'] = ''
 
     # Write results to the file
+    print('Gathering info for {} package'.format(package_json['name']))
     write_results_to_the_file(package_json, FILE_PACKAGES)
 
 
@@ -131,6 +132,7 @@ def main():
     opts = parser.parse_args()
 
     # Prepare environment
+    print('Prepare environment')
     delete_files_before_running([FILE_PACKAGES, opts.wikiout])
 
     if opts.wikiout and opts.short:
