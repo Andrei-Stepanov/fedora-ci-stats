@@ -17,9 +17,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # This file is part of Cockpit.
 
-import datetime
-import jinja2
 import os
+import sys
+import jinja2
+import datetime
 
 from config import IN_J2_WIKI_TEMPLATE
 
@@ -44,6 +45,7 @@ def generate_file_upload_on_wiki(input_file, output_file):
         (file): file that will be uploaded on the wiki page
     """
     print('Generate file that will be uploaded on the wiki page')
+    sys.stdout.flush()
     THIS_DIR = os.path.dirname(os.path.abspath(__file__))
     packages = get_list_of_packages_from_the_file(input_file)
     packages_statistic = get_packages_statistic(packages)
@@ -70,6 +72,7 @@ def get_packages_statistic(packages):
         statistic_json (dict): packages statistic
     """
     print('Get packages statistic')
+    sys.stdout.flush()
     statistic_json = {'total': '',
                       'distgit': {
                           'test_yml': '',
