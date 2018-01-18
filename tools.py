@@ -39,11 +39,11 @@ def get_pull_requests(site_url, package):
 
     response = requests.get(site)
     try:
-        response_json = response.json()
-    except Exception:
-        print("get_pull_requests failed for: %s" % site)
-        response_json = ""
-    return response_json
+        pull_request = response.json()
+        return pull_request
+    except ValueError:
+        print("Can't get {} URL. It will be skipped".format(site))
+        return
 
 
 def manage_pull_request(response_json):
@@ -58,13 +58,12 @@ def manage_pull_request(response_json):
     try:
         if response_json['total_requests'] > 0:
             for request in response_json['requests']:
-                if ('Add CI tests' or 'test' in request['title']) and (request['status'] == 'Open'):
+                if ('Add CI tests' in request['title']) and (request['status'] == 'Open'):
                     pull_req_url = DIST_GIT_URL + request['project']['url_path'] + '/pull-requests'
                     return {'user': request['user'], 'url': pull_req_url}
 
-    except Exception:
-        # {'error': 'Project not found', 'error_code': 'ENOPROJECT'}
-        return
+    except (KeyError, TypeError):
+        print('Exception:', response_json)
 
 
 def get_all_projects(site_url):
@@ -232,7 +231,7 @@ def test_tags_to_dict(test_tags):
         for tag in test_tags:
             tags_dict[tag] = True
 
-    except Exception:
+    except TypeError:
         pass
     return tags_dict
 
@@ -247,7 +246,9 @@ def get_list_of_packages_from_the_file(file):
         packages (list of packages)
     """
     with open(file) as packages_file:
-        return packages_file.read().splitlines()
+        packages = packages_file.read().splitlines()
+        [packages.remove(element) for element in packages if element.startswith('#')]
+        return packages
 
 
 def write_results_to_the_file(result, filename):
