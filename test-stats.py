@@ -58,10 +58,16 @@ def wrapper_for_get_pull_requests(package):
     package_json['name'] = package
 
     if result is not None:
-        package_json['distgit']['pending']['url'] = result['url']
-        package_json['distgit']['pending']['user'] = result['user']
-        package_json['distgit']['pending']['status'] = True
-    else:
+        try:
+            package_json['distgit']['pending']['url'] = result['url']
+            package_json['distgit']['pending']['user'] = result['user']
+            package_json['distgit']['pending']['status'] = True
+
+        except KeyError:
+            if result['error_code'] == 'ENOPROJECT':
+                package_json['distgit']['missing'] = True
+
+    elif result is None:
         package_json['distgit']['pending']['url'] = ''
         package_json['distgit']['pending']['user'] = ''
         package_json['distgit']['pending']['status'] = False
