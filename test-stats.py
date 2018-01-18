@@ -17,6 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # This file is part of Cockpit.
 
+import sys
 import argparse
 
 from config import UPSTREAMFIRST_URL
@@ -94,6 +95,7 @@ def wrapper_for_get_pull_requests(package):
 
     # Write results to the file
     print('Gathering info for {}'.format(package_json['name']))
+    sys.stdout.flush()
     write_results_to_the_file(package_json, FILE_PACKAGES)
 
 
@@ -133,6 +135,7 @@ def main():
 
     # Prepare environment
     print('Prepare environment')
+    sys.stdout.flush()
     delete_files_before_running([FILE_PACKAGES, opts.wikiout])
 
     if opts.wikiout and opts.short:
